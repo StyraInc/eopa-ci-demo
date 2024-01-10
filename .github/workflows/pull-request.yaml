@@ -29,7 +29,9 @@ jobs:
           STYRA_DAS_TOKEN: ${{ secrets.STYRA_DAS_TOKEN }}
           STYRA_DAS_TENANT: expo
       - name: test
-        run: hurl --test --glob "test/integration/**/*.hurl" --report-junit report.xml
+        run: |
+          sleep 10s
+          hurl --test --glob "test/integration/**/*.hurl" --report-junit report.xml
       - name: dump logs
         run: docker compose logs
         if: failure()

@@ -11,7 +11,7 @@
     }
   },
   "decision_logs": {
-    "console": false,
+    "console": true,
     "reporting": {
       "max_delay_seconds": 15,
       "min_delay_seconds": 10,
