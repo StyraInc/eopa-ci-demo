@@ -31,6 +31,9 @@ jobs:
           EOPA_LICENSE_KEY: ${{ secrets.EOPA_LICENSE_KEY }}
       - name: test
         run: hurl --test --glob "test/integration/**/*.hurl" --report-junit report.xml
+      - name: dump logs
+        run: docker compose logs
+        if: failure()
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v4
         if: always()
