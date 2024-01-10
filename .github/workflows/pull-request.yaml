@@ -27,6 +27,8 @@ jobs:
           fetch-depth: 0
       - name: setup
         run: docker compose up --quiet-pull --wait --wait-timeout 300
+        env:
+          EOPA_LICENSE_KEY: ${{ secrets.EOPA_LICENSE_KEY }}
       - name: test
         run: hurl --test --glob "test/integration/**/*.hurl" --report-junit report.xml
       - name: Publish Test Report

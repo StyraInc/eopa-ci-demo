@@ -9,7 +9,7 @@ services:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
     command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--component-log-level", "ext_authz:trace"]
   opa:
-    image: openpolicyagent/opa:latest-envoy
+    image: ghcr.io/styrainc/enterprise-opa:latest
     ports:
       - "9191:9191"
     command:
@@ -20,8 +20,8 @@ services:
     volumes:
       - ./policy.rego:/policy.rego
       - ./opa.yaml:/opa.yaml
-    # environment:
-    #   EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
+    environment:
+      EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
   svc:
     build: svc
     ports:
