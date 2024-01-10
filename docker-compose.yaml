@@ -12,9 +12,11 @@ services:
     image: ghcr.io/styrainc/enterprise-opa:latest
     ports:
       - "9191:9191"
+      - "8181:8181"
     command:
       - run
       - --server
+      - --addr=:8181
       - --config-file=/opa.json
     volumes:
       - ./opa-das.json:/opa.json
@@ -28,4 +30,5 @@ services:
     ports:
       - "5000:5000"
     environment:
+      OPA_ADDR: http://opa:8181
       POLICY_PATH: /v1/data/application/main
