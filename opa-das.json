@@ -1,6 +1,6 @@
 {
   "bundles": {
-    "systems/${STYRA_DAS_SYSTEM_ID}": {
+    "systems/${STYRA_DAS_SYSTEM}": {
       "persist": false,
       "polling": {
         "max_delay_seconds": 15,
