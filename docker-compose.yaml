@@ -15,14 +15,17 @@ services:
     command:
       - run
       - --server
-      - --config-file=/opa.yaml
-      - /policy.rego
+      - --config-file=/opa.json
     volumes:
-      - ./policy.rego:/policy.rego
-      - ./opa.yaml:/opa.yaml
+      - ./opa-das.json:/opa.json
     environment:
       EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
+      STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
+      STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
+      STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM}
   svc:
-    build: svc
+    image: openpolicyagent/demo-restful-api:0.2
     ports:
-      - "8080:80"
+      - "5000:5000"
+    environment:
+      POLICY_PATH: /v1/data/application/main

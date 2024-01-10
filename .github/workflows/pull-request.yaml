@@ -25,6 +25,9 @@ jobs:
         run: docker compose up --quiet-pull --wait --wait-timeout 300
         env:
           EOPA_LICENSE_KEY: ${{ secrets.EOPA_LICENSE_KEY }}
+          STYRA_DAS_SYSTEM: af5120e033934478bd6dcbd8bfca0c84
+          STYRA_DAS_TOKEN: ${{ secrets.STYRA_DAS_TOKEN }}
+          STYRA_DAS_TENANT: expo
       - name: test
         run: hurl --test --glob "test/integration/**/*.hurl" --report-junit report.xml
       - name: dump logs

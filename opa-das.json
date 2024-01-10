@@ -1,0 +1,60 @@
+{
+  "bundles": {
+    "systems/${STYRA_DAS_SYSTEM_ID}": {
+      "persist": false,
+      "polling": {
+        "max_delay_seconds": 15,
+        "min_delay_seconds": 10
+      },
+      "resource": "/bundles/systems/${STYRA_DAS_SYSTEM}",
+      "service": "styra"
+    }
+  },
+  "decision_logs": {
+    "console": false,
+    "reporting": {
+      "max_delay_seconds": 15,
+      "min_delay_seconds": 10,
+      "upload_size_limit_bytes": 1048576
+    },
+    "service": "styra"
+  },
+  "default_decision": "main/main",
+  "nd_builtin_cache": true,
+  "plugins": {
+    "envoy_ext_authz_grpc": {
+      "addr": ":9191",
+      "dry-run": false,
+      "enable-reflection": true,
+      "path": "main/main"
+    }
+  },
+  "status": {
+    "console": false,
+    "service": "styra"
+  },
+  "services": [
+    {
+      "name": "styra",
+      "url": "https://${STYRA_DAS_TENANT}.styra.com/v1",
+      "credentials": {
+        "bearer": {
+          "token": "${STYRA_DAS_TOKEN}"
+        }
+      } 
+    },
+    {
+      "name": "styra-bundles",
+      "url": "https://${STYRA_DAS_TENANT}.styra.com/v1/bundles",
+      "credentials": {
+        "bearer": {
+          "token": "${STYRA_DAS_TOKEN}"
+        }
+      } 
+    }
+  ],
+  "labels": {
+    "system-id": "${STYRA_DAS_SYSTEM}",
+    "system-type": "template.envoy:2.1"
+  }
+}

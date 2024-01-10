@@ -67,7 +67,7 @@ static_resources:
             address:
               socket_address:
                 address: svc
-                port_value: 80
+                port_value: 5000
 layered_runtime:
   layers:
     - name: static_layer_0
