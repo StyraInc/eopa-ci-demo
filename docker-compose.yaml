@@ -24,7 +24,7 @@ services:
       STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
       STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM}
   svc:
-    image: openpolicyagent/demo-restful-api:0.2
+    image: openpolicyagent/demo-restful-api:0.3
     ports:
       - "5000:5000"
     environment:
