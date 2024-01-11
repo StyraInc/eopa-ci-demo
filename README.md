@@ -2,11 +2,11 @@
 
 This is an example demonstrating the use of Enterprise OPA and DAS in a CI/CD setting.
 
-Currently, the instance(s) of EOPA used in the CI workflow will check in with DAS,
-pull its bundles, and report their status and decision logs back to DAS.
+Currently, the instance(s) of EOPA used in the CI workflow will NOT use anything from DAS.
 
-Eventually, this should not happen: per-branch CI runs should take the policies from the
-repository itself, and have EOPA run with those.
+Eventually, this is what should happen: per-branch CI runs should take the policies from the
+repository itself, and have EOPA run with those; fill whatever blanks exist with libraries
+etc from DAS, as configured.
 
 ## Prerequirements
 
@@ -26,4 +26,10 @@ This command will create a neat little report html in the "report" directory.
 
 ## References
 
-`openpolicyagent/restful-demo-api` [can be found here](https://github.com/open-policy-agent/contrib/tree/main/api_authz)
+- The Spring Boot demo was taken from [this blog post](https://sultanov.dev/blog/externalized-authorization-using-opa-and-spring-security/),
+  and the code imported from [this repo](https://github.com/anarsultanov/examples/tree/c42d8bf1ea69d5ac3b94e54c552f6dc5a6cad509/spring-security-opa-authz).
+
+  Changes:
+  - the hardcoded OPA location
+  - policy code was updated
+  - pom.xml was adjusted, and a Dockerfile added
