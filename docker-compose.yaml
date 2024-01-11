@@ -9,9 +9,11 @@ services:
       - run
       - --server
       - --addr=:8181
+      - users:/data/data.json
+      - /data/policy.rego
       # - --config-file=/opa.json
     volumes:
-      - ./opa-das.json:/opa.json
+      - ./opa/:/data
     environment:
       EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
       STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}

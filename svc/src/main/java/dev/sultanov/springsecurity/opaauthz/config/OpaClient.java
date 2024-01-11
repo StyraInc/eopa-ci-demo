@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Component
 public class OpaClient {
 
-    private static final String URI = "http://localhost:8181/v1/data/authz/allow";
+    private static final String URI = "http://opa:8181/v1/data/authz/allow";
     private static final Logger LOG = LoggerFactory.getLogger(OpaClient.class);
 
     private final ObjectMapper objectMapper = new ObjectMapper();
