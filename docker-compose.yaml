@@ -1,13 +1,5 @@
 version: '3'
 services:
-  envoy:
-    image: envoyproxy/envoy:v1.28-latest
-    ports:
-      - "9901:9901"
-      - "51051:51051"
-    volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
-    command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--component-log-level", "ext_authz:trace"]
   opa:
     image: ghcr.io/styrainc/enterprise-opa:latest
     ports:
@@ -17,18 +9,17 @@ services:
       - run
       - --server
       - --addr=:8181
-      - --config-file=/opa.json
+      - users:/data/data.json
+      - /data/policy.rego
+      # - --config-file=/opa.json
     volumes:
-      - ./opa-das.json:/opa.json
+      - ./opa/:/data
     environment:
       EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
       STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
       STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
-      STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM}
+      STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM:-}
   svc:
-    image: openpolicyagent/demo-restful-api:0.3
+    build: svc/
     ports:
-      - "5000:5000"
-    environment:
-      OPA_ADDR: http://opa:8181
-      POLICY_PATH: /v1/data/application/main
+      - "8080:8080"
