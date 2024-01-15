@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +20,15 @@ import java.util.stream.Collectors;
 @Component
 public class OpaClient {
 
-    private static final String URI = "http://opa:8181/v1/data/authz/allow";
+    @Value("${OPA_HOST:http://opa:8181}")
+    private String HOST;
     private static final Logger LOG = LoggerFactory.getLogger(OpaClient.class);
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final RestTemplate restTemplate = new RestTemplate();
 
     public boolean allow(String action, Map<String, Object> resourceAttributes) {
+        String URI = HOST + "/v1/data/authz/allow";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || action == null || resourceAttributes == null || resourceAttributes.isEmpty()) {
             return false;
