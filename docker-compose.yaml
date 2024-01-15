@@ -1,9 +1,15 @@
 version: '3'
+x-styra-env:
+  &styra-env
+  EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
+  STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
+  STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
+  STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM:-}
+
 services:
-  opa:
+  opa-ci:
     image: ghcr.io/styrainc/enterprise-opa:latest
     ports:
-      - "9191:9191"
       - "8181:8181"
     command:
       - run
@@ -11,21 +17,33 @@ services:
       - --addr=:8181
       - users:/data/data.json
       - /data/policy.rego
-      # - --config-file=/opa.json
     volumes:
       - ./opa/:/data
-    environment:
-      EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
-      STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
-      STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
-      STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM:-}
+    environment: *styra-env
     profiles:
       - ci
+
+  opa-prod:
+    image: ghcr.io/styrainc/enterprise-opa:latest
+    ports:
+      - "8181:8181"
+    command:
+      - run
+      - --server
+      - --addr=:8181
+      - --config-file=/opa.json
+    volumes:
+      - ./env/prod/opa.json:/opa.json
+    environment: *styra-env
+    profiles:
+      - prod
 
   svc:
     build: svc/
     ports:
       - "8080:8080"
+    environment:
+      OPA_HOST: http://opa-${ENV:-ci}:8181
 
   integration-tests:
     image: ghcr.io/orange-opensource/hurl:latest

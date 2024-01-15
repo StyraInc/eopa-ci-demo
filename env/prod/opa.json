@@ -11,7 +11,7 @@
     }
   },
   "decision_logs": {
-    "console": true,
+    "console": false,
     "reporting": {
       "max_delay_seconds": 15,
       "min_delay_seconds": 10,
@@ -19,16 +19,8 @@
     },
     "service": "styra"
   },
-  "default_decision": "main/main",
+  "default_decision": "rules/main",
   "nd_builtin_cache": true,
-  "plugins": {
-    "envoy_ext_authz_grpc": {
-      "addr": ":9191",
-      "dry-run": false,
-      "enable-reflection": true,
-      "path": "main/main"
-    }
-  },
   "status": {
     "console": false,
     "service": "styra"
@@ -55,6 +47,6 @@
   ],
   "labels": {
     "system-id": "${STYRA_DAS_SYSTEM}",
-    "system-type": "template.envoy:2.1"
+    "system-type": "custom"
   }
 }
