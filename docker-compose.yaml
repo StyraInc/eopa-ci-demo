@@ -19,7 +19,23 @@ services:
       STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
       STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
       STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM:-}
+    profiles:
+      - ci
+
   svc:
     build: svc/
     ports:
       - "8080:8080"
+
+  integration-tests:
+    image: ghcr.io/orange-opensource/hurl:latest
+    volumes:
+      - ./test:/test
+    command:
+      - --test
+      - --retry=10
+      - --variable=host=http://svc:8080
+      - --glob=/test/integration/**/*.hurl
+      - --report-junit=test/report.xml
+    profiles:
+      - tools

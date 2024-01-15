@@ -16,22 +16,19 @@ jobs:
     runs-on: ubuntu-22.04
     environment: ci
     steps:
-      - uses: gacts/install-hurl@v1
       - name: Check out code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: setup
-        run: docker compose up --quiet-pull --wait --wait-timeout 300
+        run: docker compose --profile ci up --quiet-pull --wait --wait-timeout 300
         env:
           EOPA_LICENSE_KEY: ${{ secrets.EOPA_LICENSE_KEY }}
           STYRA_DAS_SYSTEM: af5120e033934478bd6dcbd8bfca0c84
           STYRA_DAS_TOKEN: ${{ secrets.STYRA_DAS_TOKEN }}
           STYRA_DAS_TENANT: expo
       - name: test
-        run: |
-          sleep 10s
-          hurl --test --glob "test/integration/**/*.hurl" --report-junit report.xml
+        run: docker compose run --quiet-pull integration-tests
       - name: dump logs
         run: docker compose logs
         if: failure()
@@ -39,4 +36,4 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: always()
         with:
-          report_paths: report.xml
+          report_paths: test/report.xml
