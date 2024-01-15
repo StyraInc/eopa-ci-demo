@@ -16,9 +16,10 @@ services:
       - --server
       - --addr=:8181
       - users:/data/data.json
-      - /data/policy.rego
+      - /policies/rules/rules.rego
     volumes:
       - ./opa/:/data
+      - ./policies/prod/:/policies
     environment: *styra-env
     profiles:
       - ci

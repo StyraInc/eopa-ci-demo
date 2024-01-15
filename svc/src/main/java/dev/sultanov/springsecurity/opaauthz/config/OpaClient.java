@@ -28,7 +28,7 @@ public class OpaClient {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public boolean allow(String action, Map<String, Object> resourceAttributes) {
-        String URI = HOST + "/v1/data/authz/allow";
+        String URI = HOST + "/v1/data/rules/allow";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || action == null || resourceAttributes == null || resourceAttributes.isEmpty()) {
             return false;
