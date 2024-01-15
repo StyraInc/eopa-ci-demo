@@ -11,14 +11,17 @@ etc from DAS, as configured.
 ## Prerequirements
 
 - docker compose
-- hurl.dev
 
 ## Steps
 
 Use `docker compose up --wait` to start everything. The first run will take particularly long,
 because it's pulling images.
 
-Then run `hurl` with the test/integration scripts, like
+Then run `hurl` with the test/integration scripts, 
+
+    docker compose run integration-tests
+
+If you have [`hurl`](https://hurl.dev) installed locally, you can also try
 
     hurl --test --glob 'test/integration/**/*.hurl' --report-html report
 
