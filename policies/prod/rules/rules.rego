@@ -1,8 +1,8 @@
 package rules
 
-import data.dataset
 import future.keywords.if
 import future.keywords.in
+import data.libraries.eopa_ci_demo.users
 
 default allow := false
 
@@ -24,8 +24,8 @@ allow if {
   input.resource.owner == input.subject.name
 }
 
-users_graph[data.users[username].name] := edges if {
-  edges := data.users[username].subordinates
+users_graph[users[username].name] := edges if {
+  edges := users[username].subordinates
 }
 
 users_access[username] := access if {
