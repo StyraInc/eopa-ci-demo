@@ -3,29 +3,32 @@ x-styra-env:
   &styra-env
   EOPA_LICENSE_KEY: ${EOPA_LICENSE_KEY}
   STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
+  EOPA_STYRA_DAS_TOKEN: ${STYRA_DAS_TOKEN}
   STYRA_DAS_TENANT: ${STYRA_DAS_TENANT}
   STYRA_DAS_SYSTEM: ${STYRA_DAS_SYSTEM:-}
+x-styra-image: &eopa-image ${EOPA_IMAGE:-ghcr.io/styrainc/enterprise-opa:latest}
 
 services:
   opa-ci:
-    image: ghcr.io/styrainc/enterprise-opa:latest
+    image: *eopa-image
     ports:
       - "8181:8181"
     command:
       - run
       - --server
       - --addr=:8181
-      - users:/data/data.json
-      - /policies/rules/rules.rego
+      - policies/rules/rules.rego
+    working_dir: /work
     volumes:
-      - ./opa/:/data
-      - ./policies/prod/:/policies
+      - .styra.yaml:/work/.styra.yaml
+      - .styra:/work/.styra
+      - ./policies/prod:/work/policies
     environment: *styra-env
     profiles:
       - ci
 
   opa-prod:
-    image: ghcr.io/styrainc/enterprise-opa:latest
+    image: *eopa-image
     ports:
       - "8181:8181"
     command:
